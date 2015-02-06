@@ -14,3 +14,5 @@ case $DISTR in
           echo "This Distribution is not supported."
           ;;
 esac
+
+puppet module install puppetlabs-stdlib
