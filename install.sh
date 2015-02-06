@@ -20,4 +20,4 @@ puppet module install puppetlabs-stdlib
 
 mkdir /root/benchmark
 cd /root/benchmark/
-git clone git@gitlab.syseleven.de:t.lohner/benchmark.git
+git clone http://gitlab.syseleven.de/t.lohner/benchmark.git
