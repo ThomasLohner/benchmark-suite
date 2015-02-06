@@ -5,8 +5,7 @@ DISTR=$(grep -h '^NAME=' /etc/*release | sed -e 's/NAME=//g' | tr -d '[:punct:]'
 case $DISTR in
      UBUNTU)
           apt-get update
-          ;;
-     CENTOS|RHEL)
+          apt-get -y install puppet
           ;;
      GENTOO)
           emerge -n puppet
