@@ -8,7 +8,7 @@ case $DISTR in
           apt-get install puppet git -y
           ;;
      GENTOO)
-          emerege --sync
+          emerge --sync
           emerge -n app-admin/puppet dev-vcs/git
           ;; 
      *)
