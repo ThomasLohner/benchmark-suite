@@ -8,6 +8,7 @@ case $DISTR in
           apt-get -y install puppet
           ;;
      GENTOO)
+          emerege --sync
           emerge -n puppet
           ;; 
      *)
