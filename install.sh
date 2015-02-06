@@ -5,8 +5,7 @@ DISTR=$(grep -h '^NAME=' /etc/*release | sed -e 's/NAME=//g' | tr -d '[:punct:]'
 case $DISTR in
      UBUNTU)
           apt-get update
-          apt-get install puppet -y
-          apt-get install git -y
+          apt-get install puppet git -y
           ;;
      GENTOO)
           emerege --sync
