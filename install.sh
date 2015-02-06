@@ -5,7 +5,8 @@ DISTR=$(grep -h '^NAME=' /etc/*release | sed -e 's/NAME=//g' | tr -d '[:punct:]'
 case $DISTR in
      UBUNTU)
           apt-get update
-          apt-get -y install puppet git
+          apt-get install puppet -y
+          apt-get install git -y
           ;;
      GENTOO)
           emerege --sync
@@ -15,7 +16,7 @@ case $DISTR in
           echo "This Distribution is not supported."
           ;;
 esac
-wait
+
 puppet module install puppetlabs-stdlib
 
 cd /root/
