@@ -57,7 +57,6 @@ case $::operatingsystem {
     }
     exec {'apt-get update':
       command => '/usr/bin/apt-get update',
-      unless  => '/usr/bin/apt-key list | /bin/grep 1024D/CD2EFD2A',
       before  => Package[$packages],
     }
     # set mysql root password
