@@ -59,4 +59,4 @@ php -f ${BASEDIR}install.php --\
 
 # mooooo
 echo "\n\n"
-echo -e "I've installed magento. You can hop to:\n $URL \n\nRemember to add this to your local /etc/hosts-file:\n\n$(facter ipaddress) $DOMAIN\n\nStart your benchmark with:\n ab -c 1 -t 60 ${URL}catalogsearch/result/?q=dress" | cowsay -W 80
+echo -e "I've installed magento. You can hop to:\n $URL \n\nRemember to add this to your local /etc/hosts-file:\n\n$(curl -s ip.syseleven.de) $DOMAIN\n\nStart your benchmark with:\n ab -c 1 -t 60 ${URL}catalogsearch/result/?q=dress" | cowsay -W 80
