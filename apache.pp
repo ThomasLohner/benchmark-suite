@@ -5,7 +5,7 @@ case $::operatingsystem {
 
     $packages         = ['www-servers/apache','dev-lang/php']
     $apache_service   = 'apache2'
-    $user             = 'www'
+    $user             = 'apache'
     $apache_vhost_dir = '/etc/apache/vhost.d'
 
     file_line { 'apache_keywords':
@@ -35,10 +35,16 @@ case $::operatingsystem {
     }
     file_line { 'php_use':
       path  => '/etc/portage/package.use',
-      line  => 'dev-lang/php -threads apache2 pdo curl mysqli gd',
+      line  => 'dev-lang/php -threads apache2 pdo curl mysql mysqli gd',
       match => '^dev-lang/php',
     }
-
+    # enable php in apache
+    exec{'activate_php':
+      command => 'sed -i "/^APACHE2_OPTS=/s:\"$: -D PHP5\":g" /etc/conf.d/apache2',
+      onlyif  => 'test 0 -eq $(grep "^APACHE2_OPTS=" /etc/conf.d/apache2 | grep -cw PHP5)',
+      path    => '/bin/:/usr/bin/:/usr/sbin/',
+      notify  => Service[$apache_service],
+    }
 
   }
   'ubuntu', 'debian': {
@@ -87,12 +93,13 @@ file { [ "/var/", "/var/www"]:
   before => File["/var/www/$domainname/"],
 }
 file {"/var/www/$domainname/":
-  ensure => "directory",
-  owner  => "$user",
-  before => Service[$apache_service],
+  ensure  => "directory",
+  owner   => "$user",
+  require => Package[$packages],
 }
 file { "/var/www/$domainname/index.html":
   content => "<h4>SysEleven Benchmark Suite</h4>",
+  owner   => $user,
   require => File["/var/www/$domainname/"],
 }
 # create apache vhost

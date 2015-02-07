@@ -4,7 +4,7 @@ $mysql_root_pw = generate('/usr/bin/pwgen', '12', '1')
 case $::operatingsystem {
   'gentoo': {
 
-    $packages    = ['dev-db/percona-server']
+    $packages    = 'dev-db/percona-server'
     $service     = 'mysql'
     $root_my_cnf = '/root/.my.cnf'
 
@@ -26,7 +26,7 @@ case $::operatingsystem {
       command     => "/usr/bin/emerge --config $packages",
       creates     => '/var/lib/mysql/mysql',
       refreshonly => true,
-      require => File[$root_my_cnf],
+      require => [File[$root_my_cnf],Package[$packages]],
       notify  => Service[$service],
     }
 

@@ -9,6 +9,8 @@ case $DISTR in
 	  APACHEUSER="www-data"
           ;;
      GENTOO)
+          # remove mariadb useflags, or emerge will block percona
+          sed -i '/mariadb/d' /etc/portage/package.use
           emerge --sync
           emerge -n app-admin/puppet dev-vcs/git app-admin/pwgen games-misc/cowsay
           APACHEUSER="apache"
