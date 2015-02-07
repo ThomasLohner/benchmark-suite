@@ -62,6 +62,13 @@ case $::operatingsystem {
       notify  => Service[$apache_service],
     }
 
+   # disable broken default vhost
+   file {'/etc/apache2/sites-enabled/000-default.conf':
+    ensure  => absent,
+    require => File['apache_vhost'],
+    notify  => Service[$apache_service],
+   }
+
   }
   default: {
     fail("Unknown OS: $::operatingsystem")
