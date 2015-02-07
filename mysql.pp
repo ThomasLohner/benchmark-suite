@@ -4,8 +4,9 @@ $mysql_root_pw = generate('/usr/bin/pwgen', '12', '1')
 case $::operatingsystem {
   'gentoo': {
 
-    $packages = ['dev-db/percona-server']
-    $service = 'mysql'
+    $packages    = ['dev-db/percona-server']
+    $service     = 'mysql'
+    $root_my_cnf = '/root/.my.cnf'
 
     # configure keywords and useflags
     file_line { 'mysql_keywords':
@@ -25,15 +26,16 @@ case $::operatingsystem {
       command     => "/usr/bin/emerge --config $packages",
       creates     => '/var/lib/mysql/mysql',
       refreshonly => true,
-      require => File['/root/.my.cnf'],
+      require => File[$root_my_cnf],
       notify  => Service[$service],
     }
 
   }
   'ubuntu': {
 
-    $packages = ['percona-server-server-5.6']
-    $service = 'mysql'
+    $packages    = ['percona-server-server-5.6']
+    $service     = 'mysql'
+    $root_my_cnf = '/home/ubuntu/.my.cnf'
 
     # add percona apt repo
     exec {'percona_apt_repo':
@@ -62,7 +64,7 @@ case $::operatingsystem {
     exec {'mysql_setup':
       command     => "/usr/bin/mysqladmin password $mysql_root_pw",
       refreshonly => true,
-      require     => File['/root/.my.cnf'],
+      require     => File[$root_my_cnf],
       notify      => Service[$service],
     }
 
@@ -78,7 +80,7 @@ file_line {'/etc/hosts':
   match => "^$::ipaddress",
 }
 
-file {'/root/.my.cnf':
+file {$root_my_cnf:
   content => "[client]\nuser=root\npassword=$mysql_root_pw",
   notify  => Exec['mysql_setup'],
   mode    => 0600,
