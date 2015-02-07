@@ -55,6 +55,13 @@ case $::operatingsystem {
       notify  => Service[$apache_service],
     }
 
+    # enable php mod_mcrypt
+    exec {'enable_mod_mcrypt':
+      command => '/usr/sbin/php5enmod mcrypt',
+      unless => '/usr/sbin/php5query -s apache2 -m mcrypt',
+      notify  => Service[$apache_service],
+    }
+
   }
   default: {
     fail("Unknown OS: $::operatingsystem")
@@ -62,8 +69,9 @@ case $::operatingsystem {
 }
 
 file_line {'/etc/hosts':
-  path => '/etc/hosts',
-  line => "^$::ipaddress $domainname $::hostname"
+  path  => '/etc/hosts',
+  line  => "$::ipaddress $domainname $::hostname",
+  match => "^$::ipaddress",
 }
 
 # create docroot
