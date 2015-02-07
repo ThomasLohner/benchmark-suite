@@ -3,8 +3,10 @@ $domainname = 'www.invaliddomain.de'
 case $::operatingsystem {
   'gentoo': {
 
-    $packages = ['www-servers/apache','dev-lang/php']
-    $apache_service = 'apache2'
+    $packages         = ['www-servers/apache','dev-lang/php']
+    $apache_service   = 'apache2'
+    $user             = 'www'
+    $apache_vhost_dir = '/etc/apache/vhost.d'
 
     file_line { 'apache_keywords':
       path  => '/etc/portage/package.keywords',
@@ -41,8 +43,18 @@ case $::operatingsystem {
   }
   'ubuntu', 'debian': {
 
-    $packages = ['apache2']
-    $service = 'apache2'
+    $packages         = ['apache2', 'apache2-utils', 'php5', 'php5-mysql', 'php5-gd', 'php5-mcrypt', 'php5-curl']
+    $apache_service   = 'apache2'
+    $user             = 'www-data'
+    $apache_vhost_dir = '/etc/apache2/sites-enabled'
+
+    # enable mod_rewrite
+    exec {'enable_mod_rwrite':
+      command => '/usr/sbin/a2enmod rewrite',
+      unless => '/usr/sbin/a2query -m rewrite',
+      notify  => Service[$apache_service],
+    }
+
   }
   default: {
     fail("Unknown OS: $::operatingsystem")
@@ -51,12 +63,24 @@ case $::operatingsystem {
 
 file_line {'/etc/hosts':
   path => '/etc/hosts',
-  line => "$::ipaddress $domainname $::hostname"
+  line => "^$::ipaddress $domainname $::hostname"
 }
 
 file { [ "/var/", "/var/www", "/var/www/$domainname/" ]:
   ensure => "directory",
+  owner  => $user,
   before => Service[$apache_service],
+}
+file { "/var/www/$domainname/index.html":
+  content => "<h4>SysEleven Benchmark Suite</h4>",
+  require => File["/var/www/$domainname/"],
+}
+# create apache vhost
+file {'apache_vhost':
+  path    => "$apache_vhost_dir/$domainname.conf",
+  content => template('sys11-benchmark/apache_vhost.conf.erb'),
+  notify  => Service[$apache_service],
+  require => [Package[$packages],File["/var/www/$domainname/"]],
 }
 
 package {$packages:
