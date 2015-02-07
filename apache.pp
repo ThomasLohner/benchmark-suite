@@ -66,9 +66,14 @@ file_line {'/etc/hosts':
   line => "^$::ipaddress $domainname $::hostname"
 }
 
-file { [ "/var/", "/var/www", "/var/www/$domainname/" ]:
+# create docroot
+file { [ "/var/", "/var/www"]:
   ensure => "directory",
-  owner  => $user,
+  before => File["/var/www/$domainname/"],
+}
+file {"/var/www/$domainname/":
+  ensure => "directory",
+  owner  => "$user",
   before => Service[$apache_service],
 }
 file { "/var/www/$domainname/index.html":
