@@ -6,10 +6,12 @@ case $DISTR in
      UBUNTU)
           apt-get update
           apt-get install puppet-common git pwgen python-software-properties -y
+	  APACHEUSER="www-data"
           ;;
      GENTOO)
           emerge --sync
           emerge -n app-admin/puppet dev-vcs/git app-admin/pwgen
+          APACHEUSER="apache"
           ;;
      *)
           echo "This Distribution is not supported."
@@ -27,3 +29,6 @@ ln -s /root/benchmark/modules/* /etc/puppet/modules/
 # apply puppet manifests
 puppet apply /root/benchmark/mysql.pp -vv
 puppet apply /root/benchmark/apache.pp -vv
+
+# install magento
+/root/benchmark/magento.sh $APACHEUSER
