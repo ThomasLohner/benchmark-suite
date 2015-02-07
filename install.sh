@@ -5,7 +5,7 @@ DISTR=$(grep -h '^NAME=' /etc/*release | sed -e 's/NAME=//g' | tr -d '[:punct:]'
 case $DISTR in
      UBUNTU)
           apt-get update
-          apt-get install puppet-common git pwgen python-software-properties -y
+          apt-get install puppet-common git pwgen python-software-properties cowsay -y
 	  APACHEUSER="www-data"
           ;;
      GENTOO)
@@ -32,3 +32,5 @@ puppet apply /root/benchmark/apache.pp -vv
 
 # install magento
 /root/benchmark/magento.sh $APACHEUSER
+
+

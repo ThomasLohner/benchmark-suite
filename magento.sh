@@ -55,3 +55,8 @@ php -f ${BASEDIR}install.php --\
   --admin_username admin \
   --admin_password $ADMINPASS \
   --encryption_key $ENCRYPTIONKEY
+
+# mooooo
+echo "\n\n"
+echo -e "I've installed magento. You can hop to:\n $URL \n\nOr start your benchmark with:\n ab -c 1 -t 60 $URL" | /usr/games/cowsay -W 70
+
