@@ -4,6 +4,7 @@ case $::operatingsystem {
       $packages = ['dev-db/percona-server']
       $service = 'mysql'
 
+      # configure keywords and useflags
       file_line { 'mysql_keywords':
         path  => '/etc/portage/package.keywords',
         line  => 'dev-db/percona-server ~amd64',
@@ -26,6 +27,27 @@ case $::operatingsystem {
 
       $packages = ['percona-server-server-5.6']
       $service = 'mysql'
+
+      # add percona apt repo
+      exec {'percona_apt_repo':
+        command => '/usr/bin/apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A',        
+        before  => Exec['apt-get update'],
+      }
+      file_line {'percona_deb':
+	path   => '/etc/apt/sources.list',
+	line   => "deb http://repo.percona.com/apt $::lsbdistcodename main",
+	match  => '^deb http://repo.percona.com/apt',
+        before => Exec['apt-get update'],
+      }
+      file_line {'percona_deb-src':
+        path   => '/etc/apt/sources.list',
+        line   => "deb-src http://repo.percona.com/apt $::lsbdistcodename main",
+        match  => '^deb-src http://repo.percona.com/apt',
+        before => Exec['apt-get update'], 
+      }
+      exec {'apt-get update':
+        command => '/usr/bin/apt-get update',
+      }
 
     }
     default: {
