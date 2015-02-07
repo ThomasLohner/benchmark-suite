@@ -73,12 +73,6 @@ case $::operatingsystem {
   }
 }
 
-file_line {'/etc/hosts':
-  path  => '/etc/hosts',
-  line  => "$::ipaddress $domainname $::hostname",
-  match => "^$::ipaddress",
-}
-
 file {$root_my_cnf:
   content => "[client]\nuser=root\npassword=$mysql_root_pw",
   replace => false,
