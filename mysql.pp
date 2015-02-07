@@ -81,8 +81,36 @@ file_line {'/etc/hosts':
 
 file {$root_my_cnf:
   content => "[client]\nuser=root\npassword=$mysql_root_pw",
+  replace => false,
   notify  => Exec['mysql_setup'],
   mode    => 0600,
+}
+
+# disable query_cache
+file_line {'query_cache_size':
+  path    => '/etc/mysql/my.cnf',
+  after   => '[mysqld]',
+  line    => "query_cache_size = 0",
+  match   => "^query_cache_size",
+  notify  => Service[$service],
+  require => Package[$packages],
+}
+file_line {'query_cache_type':
+  path  => '/etc/mysql/my.cnf',
+  after => '[mysqld]',
+  line  => "query_cache_type = 0",
+  match => "^query_cache_type",
+  notify => Service[$service],
+  require => Package[$packages],
+}
+
+# make mysql listen on all ip addresses
+file_line {'bind_address':
+  path  => '/etc/mysql/my.cnf',
+  line  => "bind-address = *",
+  match => "^bind-address",
+  notify => Service[$service],
+  require => Package[$packages],
 }
 
 package {$packages:
