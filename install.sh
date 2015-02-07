@@ -10,7 +10,7 @@ case $DISTR in
           ;;
      GENTOO)
           emerge --sync
-          emerge -n app-admin/puppet dev-vcs/git app-admin/pwgen
+          emerge -n app-admin/puppet dev-vcs/git app-admin/pwgen games-misc/cowsay
           APACHEUSER="apache"
           ;;
      *)

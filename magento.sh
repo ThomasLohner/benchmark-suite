@@ -6,8 +6,9 @@ then
   exit
 fi
 
-BASEDIR="/var/www/www.invaliddomain.de/magento/"
-URL="http://www.invaliddomain.de/magento/"
+DOMAIN="www.invaliddomain.de"
+BASEDIR="/var/www/${DOMAIN}/magento/"
+URL="http://${DOMAIN}/magento/"
 DBHOST=$(facter ipaddress)
 DBPASS=$(pwgen 12 1)
 DBUSER="mage"
@@ -58,5 +59,4 @@ php -f ${BASEDIR}install.php --\
 
 # mooooo
 echo "\n\n"
-echo -e "I've installed magento. You can hop to:\n $URL \n\nOr start your benchmark with:\n ab -c 1 -t 60 $URL" | /usr/games/cowsay -W 70
-
+echo -e "I've installed magento. You can hop to:\n $URL \n\nRemember to add this to your local /etc/hosts-file:\n\n$(facter ipaddress) $DOMAIN\n\nStart your benchmark with:\n ab -c 1 -t 60 ${URL}catalogsearch/result/?q=dress" | cowsay -W 80
