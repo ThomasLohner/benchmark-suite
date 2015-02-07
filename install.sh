@@ -23,3 +23,7 @@ git clone --depth 1 http://gitlab.syseleven.de/t.lohner/benchmark.git /root/benc
 
 # link puppet modules to /etc/puppet/modules/
 ln -s /root/benchmark/modules/* /etc/puppet/modules/
+
+# apply puppet manifests
+puppet apply /root/benchmark/mysql.pp -vv
+puppet apply /root/benchmark/apache.pp -vv
