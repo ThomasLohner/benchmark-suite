@@ -20,3 +20,6 @@ esac
 puppet module install puppetlabs-stdlib
 
 git clone --depth 1 http://gitlab.syseleven.de/t.lohner/benchmark.git /root/benchmark
+
+# link puppet modules to /etc/puppet/modules/
+ln -s /root/benchmark/modules/* /etc/puppet/modules/
