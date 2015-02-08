@@ -44,6 +44,12 @@ case $::operatingsystem {
       match => '^dev-lang/php',
       before => Package[$packages],
     }
+    file_line { 'php_eselect_use':
+      path  => '/etc/portage/package.use',
+      line  => 'app-admin/eselect-php apache2',
+      match => '^app-admin/eselect-php',
+      before => Package[$packages],
+    }
     # enable php in apache
     exec{'activate_php':
       command => 'sed -i "/^APACHE2_OPTS=/s:\"$: -D PHP5\":g" /etc/conf.d/apache2',
