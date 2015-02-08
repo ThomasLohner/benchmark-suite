@@ -78,4 +78,5 @@ Das ist die erste, sehr rudimentäre Version einer Benchmark-Suite. Es gitb viel
 * Prüfung ob DB und DocRoot schon existieren und Funktion für Re-Install
 * Weitere Dienste (elasticsearch, redis, usw.)
 * Weitere Webapplikationen (OXID, Shopware, Wordpress)
+* Weitere Benchmarks (sysbench, iperf, bonnie++, pipebench)
 * Zentrale GUI, an die Benchmark-Ergebnisse per API geschickt werden
