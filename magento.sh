@@ -29,6 +29,11 @@ tar xvfz /tmp/magento-sample-data-1.9.1.0.tar.gz --directory $BASEDIR --strip-co
 tar xfvz /tmp/magento_sample_data_for_1.9.1.0.sql.tar.gz --directory /tmp/
 chown -R $OSUSER $BASEDIR
 
+# fix htaccess for apache 2.4
+sed -i '/order allow,deny/Id' /var/www/www.invaliddomain.de/magento/.htaccess
+sed -i '/Allow from all/Id' /var/www/www.invaliddomain.de/magento/.htaccess
+sed -i '/Deny from all/Id' /var/www/www.invaliddomain.de/magento/.htaccess
+ 
 # create database
 mysql  -e "create database $DBNAME; grant all on $DBNAME.* to '$DBUSER'@'$DBHOST' identified by '$DBPASS'; flush privileges;"
 
