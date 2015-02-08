@@ -73,12 +73,22 @@ case $::operatingsystem {
       unless => '/usr/sbin/a2query -m rewrite',
       notify  => Service[$apache_service],
     }
-
+    # add ppa for php 5.6
+    exec {'percona_apt_repo':
+      command => '/usr/bin/add-apt-repository ppa:ondrej/php5-5.6 -y',        
+      unless  => '/usr/bin/apt-key list | /bin/grep 1024R/E5267A6C',
+      before  => Exec['apt-get update'],
+    }
+    exec {'apt-get update':
+      command => '/usr/bin/apt-get update',
+      before  => Package[$packages],
+    }
     # enable php mod_mcrypt
     exec {'enable_mod_mcrypt':
       command => '/usr/sbin/php5enmod mcrypt',
-      unless => '/usr/sbin/php5query -s apache2 -m mcrypt',
+      unless  => '/usr/sbin/php5query -s apache2 -m mcrypt',
       notify  => Service[$apache_service],
+      require => Package[$packages],
     }
 
    # disable broken default vhost
