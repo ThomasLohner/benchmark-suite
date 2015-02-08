@@ -6,7 +6,7 @@
 3. [Compatibility - Wo kann ich es einsetzen?](#compatibility)
 3. [Setup - Wie wird die Software installiert?](#setup)
 4. [Software - Was wird alles installiert?](#software)
-5. [Roadmap - Was fehlt bisher?](#roadmap)
+5. [Roadmap - Was fehlt bisher?](#roadmap / todos)
 
 ## Overview
 Die Benchmark-Suite ist eine einfach zu instalierende Sammlung von Benchmark-Tools und Web-Applikationen.
@@ -70,7 +70,7 @@ Die Benchmark-Suite installiert folgenden Tools und Software-Pakete:
 * ioping
 * cowsay ;-)
 
-## Roadmap - Todos
+## Roadmap / Todos
 Das ist die erste, sehr rudimentäre Version einer Benchmark-Suite. Es gitb viele Dinge, die hier erweitert oder verbessert werden können:
 * Parameter für`install.sh`um z.B. getrennte App- und DB-Server zu installieren
 * Fehler-Behandlung nach jedem Schritt mit Wiederhol-Funktion
