@@ -1,22 +1,22 @@
-#Benchmark-Suite
+# Benchmark-Suite
 
-####Table of Contents
+#### Table of Contents
 1. [Overview](#overview)
 2. [Description - Wozu ist das nützich?](#description)
 3. [Compatibility - Wo kann ich es einsetzen?](#compatibility)
 3. [Setup - Wie wird die Software installiert?](#setup)
 4. [Software - Was wird alles installiert?](#software)
 
-##Overview
+## Overview
 Die Benchmark-Suite ist eine einfach zu instalierende Sammlung von Benchmark-Tools und Web-Applikationen.
 
-##Description
+## Description
 Diese Skriptsammlung installiert und konfiguriert alle benötigten Dienste uns Tools für Percmonace- und Lasttests im LAMP-Stack. Da es keine externen Abhängigkeiten gibt, eigent sich diese Benchmark-Suite vor allem zum Vergleich von VMs bei unterschiedlichen Providern. Es lassen sich aber auch verschiedene Plattform-Technologien bzw. Tuning-Parameter gegeneinander testen. 
 
-##Compatibility
+## Compatibility
 Für **Ubuntu** und **Gentoo** gibt es ein All-In-One Installations-Script mit Autodection der Linux-Distribution. Die Software-Pakete werden mit lokalen Puppet-Manifesten installiert und konfiguriert. Es wird kein Puppet-Master und auch keine Puppet-Module benötigt.
 
-##Setup
+## Setup
 Das Script `install.sh` installiert alle Abhängigkeiten der jeweiligen Linux-Distribution, installiert und konfiguriert die  Software-Pakete und installiert die Webapplikationen.
 
     sudo -s
@@ -25,8 +25,8 @@ Das Script `install.sh` installiert alle Abhängigkeiten der jeweiligen Linux-Di
 
 
 
-##Benchmark
-Nach der Installation können die Benchmarks mit den üblichen Tools durchgeführt werden
+## Benchmark
+Für Webapplikationen werden zufällige Passwörter generiert. Nach der Installation können die Benchmarks mit den üblichen Tools durchgeführt werden
 
 	 ________________________________________________________________________________________________________ 
 	/                                                                                                        \
@@ -57,7 +57,7 @@ Nach der Installation können die Benchmarks mit den üblichen Tools durchgefüh
 	                ||----w |
 	                ||     ||
 
-##Software
+## Software
 Die Benchmark-Suite installiert folgenden Tools und Software-Pakete:
 
 * PHP 5.6
@@ -69,7 +69,7 @@ Die Benchmark-Suite installiert folgenden Tools und Software-Pakete:
 * ioping
 * cowsay ;-)
 
-##Raodmap
+## Raodmap
 Das ist die erste, sehr rudimentäre Version einer Benchmark-Suite. Es gitb viele Dinge, die hier erweitert oder verbessert werden können:
 * Parameter für`install.sh`um z.B. getrennte App- und DB-Server zu installieren
 * Fehler-Behandlung nach jedem Schritt mit Wiederhol-Funktion
