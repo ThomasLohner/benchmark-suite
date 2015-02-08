@@ -75,7 +75,7 @@ case $::operatingsystem {
     }
     # add ppa for php 5.6
     exec {'percona_apt_repo':
-      command => '/usr/bin/add-apt-repository ppa:ondrej/php5-5.6 -y',        
+      command => '/usr/bin/add-apt-repository ppa:ondrej/php5-5.6 -y',
       unless  => '/usr/bin/apt-key list | /bin/grep 1024R/E5267A6C',
       before  => Exec['apt-get update'],
     }

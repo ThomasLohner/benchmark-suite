@@ -64,5 +64,27 @@ php -f ${BASEDIR}install.php --\
 
 # mooooo
 PATH=$PATH:/usr/games/
-echo "\n\n"
-echo -e "I've installed magento, you can hop to:\n $URL\n\nYour MySQL credentials are $DBUSER:$DBPASS@$DBHOST\n\nRemember to add this to your local /etc/hosts-file:\n\n$(curl -s ip.syseleven.de) $DOMAIN\n\nStart your benchmark with:\n ab -c 1 -t 60 ${URL}catalogsearch/result/?q=dress" | cowsay -W 80
+echo -e "\n\n"
+MESSAGE="
+I've installed magento at:
+
+$URL
+
+MySQL Credentials:
+User: $DBUSER
+Pass: $DBPASS 
+Host: $DBHOST
+DB:   $DBNAME
+
+Remember to add this line to your local /etc/hosts-file:
+$(curl -s ip.syseleven.de) $DOMAIN
+
+Start benchmarking with:
+
+ab -c 1 -t 60 ${URL}catalogsearch/result/?q=dress
+
+siege -v -b -c 1 -t 60S -l /dev/null ${URL}catalogsearch/result/?q=dress
+
+"
+echo "$MESSAGE" | cowsay -n
+

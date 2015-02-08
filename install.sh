@@ -5,7 +5,7 @@ DISTR=$(grep -h '^NAME=' /etc/*release | sed -e 's/NAME=//g' | tr -d '[:punct:]'
 case $DISTR in
      UBUNTU)
           apt-get update
-          apt-get install puppet-common git pwgen python-software-properties cowsay -y
+          apt-get install puppet-common git pwgen python-software-properties cowsay siege -y
 	  APACHEUSER="www-data"
           ;;
      GENTOO)
@@ -13,7 +13,7 @@ case $DISTR in
           sed -i '/dev-db\/mariadb/d' /etc/portage/package.use
           sed -i '/virtual\/mysql/d' /etc/portage/package.use
           emerge --sync
-          emerge -n app-admin/puppet dev-vcs/git app-admin/pwgen games-misc/cowsay
+          emerge -n app-admin/puppet dev-vcs/git app-admin/pwgen games-misc/cowsay app-benchmarks/siege
           APACHEUSER="apache"
           ;;
      *)
@@ -35,5 +35,3 @@ puppet apply /root/benchmark/apache.pp -vv
 
 # install magento
 /root/benchmark/magento.sh $APACHEUSER
-
-
