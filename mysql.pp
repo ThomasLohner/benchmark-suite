@@ -35,7 +35,7 @@ case $::operatingsystem {
 
     $packages    = ['percona-server-server-5.6']
     $service     = 'mysql'
-    $root_my_cnf = '/home/ubuntu/.my.cnf'
+    $root_my_cnf = '/root/.my.cnf'
 
     # add percona apt repo
     exec {'percona_apt_repo':
