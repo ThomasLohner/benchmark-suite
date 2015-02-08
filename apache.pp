@@ -6,7 +6,7 @@ case $::operatingsystem {
     $packages         = ['www-servers/apache','dev-lang/php']
     $apache_service   = 'apache2'
     $user             = 'apache'
-    $apache_vhost_dir = '/etc/apache/vhost.d'
+    $apache_vhost_dir = '/etc/apache2/vhosts.d'
 
     file_line { 'apache_keywords':
       path  => '/etc/portage/package.keywords',
