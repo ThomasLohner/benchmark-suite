@@ -12,31 +12,37 @@ case $::operatingsystem {
       path  => '/etc/portage/package.keywords',
       line  => 'www-servers/apache ~amd64',
       match => '^www-servers/apache',
+      before => Package[$packages],
     }
     file_line { 'apache_use':
       path  => '/etc/portage/package.use',
       line  => 'www-servers/apache -threads apache2_mpms_prefork',
       match => '^www-servers/apache',
+      before => Package[$packages],
     }
     file_line { 'apache_tools_keywords':
       path  => '/etc/portage/package.keywords',
       line  => 'app-admin/apache-tools ~amd64',
       match => '^app-admin/apache-tools',
+      before => Package[$packages],
     }
     file_line { 'apr_keywords':
       path  => '/etc/portage/package.keywords',
       line  => 'dev-libs/apr ~amd64',
       match => '^dev-libs/apr',
+      before => Package[$packages],
     }
     file_line { 'php_keywords':
       path  => '/etc/portage/package.keywords',
       line  => 'dev-lang/php ~amd64',
       match => '^dev-lang/php',
+      before => Package[$packages],
     }
     file_line { 'php_use':
       path  => '/etc/portage/package.use',
       line  => 'dev-lang/php -threads apache2 pdo curl mysql mysqli gd',
       match => '^dev-lang/php',
+      before => Package[$packages],
     }
     # enable php in apache
     exec{'activate_php':
@@ -44,6 +50,7 @@ case $::operatingsystem {
       onlyif  => 'test 0 -eq $(grep "^APACHE2_OPTS=" /etc/conf.d/apache2 | grep -cw PHP5)',
       path    => '/bin/:/usr/bin/:/usr/sbin/',
       notify  => Service[$apache_service],
+      require => Package[$packages],
     }
 
   }
