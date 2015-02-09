@@ -4,11 +4,11 @@
 1. [Overview](#overview)
 2. [Description - Wozu ist das nützich?](#description)
 3. [Compatibility - Wo kann ich es einsetzen?](#compatibility)
-3. [Setup - Wie wird die Software installiert?](#setup)
-4. [Software - Was wird alles installiert?](#software)
-5. [Benchmark - Wie wird getestet?](#benchmark)
+4. [Setup - Wie wird die Software installiert?](#setup)
+5. [Software - Was wird alles installiert?](#software)
+6. [Benchmark - Wie wird getestet?](#benchmark)
     * [Magento](#magento)
-6. [Roadmap - Was fehlt bisher?](#roadmap-todos)
+7. [Roadmap - Was fehlt bisher?](#roadmap-todos)
 
 ## Overview
 Die Benchmark-Suite ist eine einfach zu installierende Sammlung von Benchmark-Tools und Web-Applikationen.
@@ -20,7 +20,7 @@ Diese Skriptsammlung installiert und konfiguriert alle benötigten Dienste und T
 Für **Ubuntu** und **Gentoo** gibt es ein All-In-One Installations-Script mit Autodection der Linux-Distribution. Die Software-Pakete werden mit lokalen Puppet-Manifesten installiert und konfiguriert. Es sollen ganz bewusst keine externen Abhängigkeiten benutzt werden, wie zum Beispiel ein Puppet-Master oder unnötige Module.
 
 ## Setup
-Das Script `install.sh` installiert alle Abhängigkeiten der jeweiligen Linux-Distribution, installiert und konfiguriert die Software-Pakete und installiert die Webapplikationen.
+Das Script `install.sh` erkennt die Linux-Distribution und installiert alle Abhängigkeiten. Anschließend werden Softwarepakete per Puppet installiert konfiguriert. Im letzten Schritt werden Webapplikationen im DocRoot des Apache-vhosts installiert.
 
     sudo -s
     su -
