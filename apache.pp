@@ -40,7 +40,7 @@ case $::operatingsystem {
     }
     file_line { 'php_use':
       path  => '/etc/portage/package.use',
-      line  => 'dev-lang/php -threads apache2 pdo curl mysql mysqli gd',
+      line  => 'dev-lang/php calendar exif pcntl mhash wddx apache2 mysqli truetype sysvipc xmlwriter bcmath xmlreader curl fpm sockets zip dba pdo -recode session pcre cli mysql ftp gd xml',
       match => '^dev-lang/php',
       before => Package[$packages],
     }
