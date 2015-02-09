@@ -6,20 +6,21 @@
 3. [Compatibility - Wo kann ich es einsetzen?](#compatibility)
 3. [Setup - Wie wird die Software installiert?](#setup)
 4. [Software - Was wird alles installiert?](#software)
-5. [Benchamrk - WIe wird getestet?](#benchmark)
+5. [Benchmark - Wie wird getestet?](#benchmark)
+    * [Magento](#magento)
 6. [Roadmap - Was fehlt bisher?](#roadmap-todos)
 
 ## Overview
-Die Benchmark-Suite ist eine einfach zu instalierende Sammlung von Benchmark-Tools und Web-Applikationen.
+Die Benchmark-Suite ist eine einfach zu installierende Sammlung von Benchmark-Tools und Web-Applikationen.
 
 ## Description
-Diese Skriptsammlung installiert und konfiguriert alle benötigten Dienste uns Tools für Percmonace- und Lasttests im LAMP-Stack. Da es keine externen Abhängigkeiten gibt, eigent sich diese Benchmark-Suite vor allem zum Vergleich von VMs bei unterschiedlichen Providern. Es lassen sich aber auch verschiedene Plattform-Technologien bzw. Tuning-Parameter gegeneinander testen. 
+Diese Skriptsammlung installiert und konfiguriert alle benötigten Dienste und Tools für Percmonace- und Lasttests im LAMP-Stack. Da es keine externen Abhängigkeiten gibt, eigent sich diese Benchmark-Suite vor allem zum Vergleich von VMs bei unterschiedlichen Providern. Es lassen sich aber auch verschiedene Plattform-Technologien bzw. Tuning-Parameter gegeneinander testen. 
 
 ## Compatibility
-Für **Ubuntu** und **Gentoo** gibt es ein All-In-One Installations-Script mit Autodection der Linux-Distribution. Die Software-Pakete werden mit lokalen Puppet-Manifesten installiert und konfiguriert. Es wird kein Puppet-Master und auch keine Puppet-Module benötigt.
+Für **Ubuntu** und **Gentoo** gibt es ein All-In-One Installations-Script mit Autodection der Linux-Distribution. Die Software-Pakete werden mit lokalen Puppet-Manifesten installiert und konfiguriert. Es sollen ganz bewusst keine externen Abhängigkeiten benutzt werden, wie zum Beispiel ein Puppet-Master oder unnötige Module.
 
 ## Setup
-Das Script `install.sh` installiert alle Abhängigkeiten der jeweiligen Linux-Distribution, installiert und konfiguriert die  Software-Pakete und installiert die Webapplikationen.
+Das Script `install.sh` installiert alle Abhängigkeiten der jeweiligen Linux-Distribution, installiert und konfiguriert die Software-Pakete und installiert die Webapplikationen.
 
     sudo -s
     su -
@@ -28,7 +29,9 @@ Das Script `install.sh` installiert alle Abhängigkeiten der jeweiligen Linux-Di
 
 
 ## Benchmark
-Für Webapplikationen werden zufällige Passwörter generiert. Nach der Installation können die Benchmarks mit den üblichen Tools durchgeführt werden
+Für Webapplikationen werden zufällige Passwörter generiert. Nach der Installation können die Benchmarks mit den üblichen Tools durchgeführt werden.
+
+### Magento
 
 	 ________________________________________________________________________________________________________ 
 	/                                                                                                        \
@@ -80,3 +83,4 @@ Das ist die erste, sehr rudimentäre Version einer Benchmark-Suite. Es gitb viel
 * Weitere Webapplikationen (OXID, Shopware, Wordpress)
 * Weitere Benchmarks (sysbench, iperf, bonnie++, pipebench)
 * Zentrale GUI, an die Benchmark-Ergebnisse per API geschickt werden
+* Magento-Installer verbessern, damit das Scirpt auch bei Einrichtungen benutzt werden kann (Übergabe an Kunden mit funktionieremdem Shop)
