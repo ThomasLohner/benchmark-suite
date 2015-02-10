@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ $# -eq 0 ]
 then
@@ -33,12 +33,12 @@ chown -R $OSUSER $BASEDIR
 sed -i '/order allow,deny/Id' /var/www/www.invaliddomain.de/magento/.htaccess
 sed -i '/Allow from all/Id' /var/www/www.invaliddomain.de/magento/.htaccess
 sed -i '/Deny from all/Id' /var/www/www.invaliddomain.de/magento/.htaccess
- 
-# create database
-mysql  -e "create database $DBNAME; grant all on $DBNAME.* to '$DBUSER'@'$DBHOST' identified by '$DBPASS'; flush privileges;"
 
-# load sample data 
-mysql $DBNAME < /tmp/magento_sample_data_for_1.9.1.0.sql
+# create database
+mysql --defaults-file=/root/.my.cnf -e "create database $DBNAME; grant all on $DBNAME.* to '$DBUSER'@'$DBHOST' identified by '$DBPASS'; flush privileges;"
+
+# load sample data
+mysql --defaults-file=/root/.my.cnf $DBNAME < /tmp/magento_sample_data_for_1.9.1.0.sql
 
 # setup magento
 php -f ${BASEDIR}install.php --\
@@ -64,7 +64,7 @@ php -f ${BASEDIR}install.php --\
 
 # mooooo
 PATH=$PATH:/usr/games/
-echo -e "\n\n"
+
 MESSAGE="
 I've installed magento at:
 
@@ -87,4 +87,7 @@ siege -v -b -c 1 -t 60S -l /dev/null ${URL}catalogsearch/result/?q=dress
 
 "
 echo "$MESSAGE" | cowsay -n
+
+# save message to  /etc/motd
+echo "$MESSAGE" | cowsay -n >/etc/motd
 
