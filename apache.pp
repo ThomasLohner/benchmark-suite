@@ -67,22 +67,25 @@ case $::operatingsystem {
     $user             = 'www-data'
     $apache_vhost_dir = '/etc/apache2/sites-enabled'
 
+    # add ppa for php 5.6
+    include apt
+    apt_key { 'ondrej_php56':
+      ensure => 'present',
+      id     => 'E5267A6C',
+    }
+    apt::ppa {'ppa:ondrej/php5-5.6': 
+      require => Apt_key['ondrej_php56'],
+      before  => Package[$packages],
+    }
+
     # enable mod_rewrite
     exec {'enable_mod_rwrite':
       command => '/usr/sbin/a2enmod rewrite',
-      unless => '/usr/sbin/a2query -m rewrite',
+      unless  => '/usr/sbin/a2query -m rewrite',
+      require => Package[$packages],
       notify  => Service[$apache_service],
     }
-    # add ppa for php 5.6
-    exec {'percona_apt_repo':
-      command => '/usr/bin/add-apt-repository ppa:ondrej/php5-5.6 -y',
-      unless  => '/usr/bin/apt-key list | /bin/grep 1024R/E5267A6C',
-      before  => Exec['apt-get update'],
-    }
-    exec {'apt-get update':
-      command => '/usr/bin/apt-get update',
-      before  => Package[$packages],
-    }
+
     # enable php mod_mcrypt
     exec {'enable_mod_mcrypt':
       command => '/usr/sbin/php5enmod mcrypt',

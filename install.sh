@@ -23,6 +23,7 @@ case $DISTR in
 esac
 
 puppet module install puppetlabs-stdlib
+puppet module install puppetlabs-apt
 
 git clone --depth 1 http://gitlab.syseleven.de/t.lohner/benchmark.git /root/benchmark
 

@@ -38,27 +38,22 @@ case $::operatingsystem {
     $root_my_cnf = '/root/.my.cnf'
 
     # add percona apt repo
-    exec {'percona_apt_repo':
-      command => '/usr/bin/apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A',        
-      unless  => '/usr/bin/apt-key list | /bin/grep 1024D/CD2EFD2A',
-      before  => Exec['apt-get update'],
+    include apt
+    apt_key {'percona':
+      ensure => present,
+      id     => '1C4CBDCDCD2EFD2A',
+      server => 'keys.gnupg.net',
     }
-    file_line {'percona_deb':
-      path   => '/etc/apt/sources.list',
-      line   => "deb http://repo.percona.com/apt $::lsbdistcodename main",
-      match  => '^deb http://repo.percona.com/apt',
-      before => Exec['apt-get update'],
+    apt::source {'percona':
+      location    => 'http://repo.percona.com/apt',
+      release     => $::lsbdistcodename,
+      repos       => 'main',
+      include_src => true,
+      include_deb => true,
+      require     => Apt_key['percona'],
+      before      => Package[$packages],
     }
-    file_line {'percona_deb-src':
-      path   => '/etc/apt/sources.list',
-      line   => "deb-src http://repo.percona.com/apt $::lsbdistcodename main",
-      match  => '^deb-src http://repo.percona.com/apt',
-      before => Exec['apt-get update'], 
-    }
-    exec {'apt-get update':
-      command => '/usr/bin/apt-get update',
-      before  => Package[$packages],
-    }
+
     # set mysql root password
     exec {'mysql_setup':
       command     => "/usr/bin/mysqladmin password $mysql_root_pw",
