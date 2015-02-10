@@ -68,16 +68,16 @@ Für Webapplikationen werden zufällige Passwörter generiert. Nach der Installa
 Dank CloudInit und dem All-In-One-Installer können wir unbeaufsichtigt und komplett automatisiert zufällige Load in einer Plattform erzeugen. Die Messwerte verfallen zwar, weil es bisher keine zentrale API zum Sammeln der Daten gibt, aber für Load-Tests ist die Suite gut geeigent. Dazu werden beliebig viele Instanzen mit folgendem Post-Install-Script gestartet.
 *Bitte die Anzahl der Instanzen vorsichtig wählen ;-)*
 ```bash
+#!/usr/bin/env bash
 
-#!/Usr/bin/env bash
 passwd ubuntu <<EOF
 GanzGeheim!!11elf
 GanzGeheim!!11elf
 EOF
 
-bash <(curl -s https://gitlab.syseleven.de/t.lohner/benchmark/raw/master/install.sh) >>/tmp/benchlog 2>&1
+/bin/bash <(curl -s https://gitlab.syseleven.de/t.lohner/benchmark/raw/master/install.sh) >>/tmp/benchlog 2>&1
 
-siege -v -b -c $(/usr/bin/nproc) -t 30M --log=/tmp/benchlog http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress >>/tmp/benchlog 2>&1
+/usr/bin/siege -v -b -c $(/usr/bin/nproc) -t 30M --log=/tmp/benchlog http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress >>/tmp/benchlog 2>&1
 
 ```
 
