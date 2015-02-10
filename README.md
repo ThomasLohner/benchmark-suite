@@ -8,6 +8,7 @@
 5. [Software - Was wird alles installiert?](#software)
 6. [Benchmark - Wie wird getestet?](#benchmark)
     * [Magento](#magento)
+    * [Unattended Benchmarks](#unattended-benchmarks)
 7. [Roadmap - Was fehlt bisher?](#roadmap-todos)
 
 ## Overview
@@ -33,37 +34,55 @@ Für Webapplikationen werden zufällige Passwörter generiert. Nach der Installa
 
 ### Magento
 
-	 ________________________________________________________________________________________________________ 
-	/                                                                                                        \
-	| I've installed magento at:                                                                             |
-	|                                                                                                        |
-	| http://www.invaliddomain.de/magento/                                                                   |
-	|                                                                                                        |
-	| MySQL Credentials:                                                                                     |
-	| User: mage                                                                                             |
-	| Pass: oXee0AeheiPh                                                                                     |
-	| Host: 10.4.161.7                                                                                       |
-	| DB:   magento                                                                                          |
-	|                                                                                                        |
-	| Remember to add this line to your local /etc/hosts-file:                                               |
-	| 37.44.0.2  www.invaliddomain.de                                                                        |
-	|                                                                                                        |
-	| Start benchmarking with:                                                                               |
-	|                                                                                                        |
-	| ab -c 1 -t 60 http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress                        |
-	|                                                                                                        |
-	| siege -v -b -c 1 -t 60S -l /dev/null http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress |
-	|                                                                                                        |
-	\                                                                                                        /
-	 -------------------------------------------------------------------------------------------------------- 
+	 ___________________________________________________________________________________________________________ 
+	/                                                                                                           \
+	| I've installed magento at:                                                                                |
+	|                                                                                                           |
+	| http://www.invaliddomain.de/magento/                                                                      |
+	|                                                                                                           |
+	| MySQL Credentials:                                                                                        |
+	| User: mage                                                                                                |
+	| Pass: oXee0AeheiPh                                                                                        |
+	| Host: 10.4.161.7                                                                                          |
+	| DB:   magento                                                                                             |
+	|                                                                                                           |
+	| Remember to add this line to your local /etc/hosts-file:                                                  |
+	| 37.44.0.2  www.invaliddomain.de                                                                           |
+	|                                                                                                           |
+	| Start benchmarking with:                                                                                  |
+	|                                                                                                           |
+	| ab -c 1 -t 60 http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress                           |
+	|                                                                                                           |
+	| siege -v -b -c 1 -t 60S --log=/dev/null http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress |
+	|                                                                                                           |
+	\                                                                                                           /
+	 ----------------------------------------------------------------------------------------------------------- 
 	        \   ^__^
 	         \  (oo)\_______
 	            (__)\       )\/\
 	                ||----w |
 	                ||     ||
 
+
+### Unattended Benchmarks
+Dank CloudInit und dem All-In-One-Installer können wir unbeaufsichtigt und komplett automatisiert zufällige Load in einer Plattform erzeugen. Die Messwerte verfallen zwar, weil es bisher keine zentrale API zum Sammeln der Daten gibt, aber für Load-Tests ist die Suite gut geeigent. Dazu werden beliebig viele Instanzen mit folgendem Post-Install-Script gestartet.
+*Bitte die Anzahl der Instanzen vorsichtig wählen ;-)*
+```bash
+
+#!/Usr/bin/env bash
+passwd ubuntu <<EOF
+GanzGeheim!!11elf
+GanzGeheim!!11elf
+EOF
+
+bash <(curl -s https://gitlab.syseleven.de/t.lohner/benchmark/raw/master/install.sh) >>/tmp/benchlog 2>&1
+
+siege -v -b -c $(/usr/bin/nproc) -t 30M --log=/tmp/benchlog http://www.invaliddomain.de/magento/catalogsearch/result/?q=dress >>/tmp/benchlog 2>&1
+
+```
+
 ## Software
-Die Benchmark-Suite installiert folgenden Tools und Software-Pakete:
+Die Benchmark-Suite installiert folgende Tools und Software-Pakete:
 
 * PHP 5.6
 * Apache 2.4
